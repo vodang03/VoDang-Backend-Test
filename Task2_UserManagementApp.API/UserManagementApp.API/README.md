@@ -32,7 +32,8 @@ Dự án được thiết kế theo mô hình tách lớp (Layered Architecture)
 1. **Mở Project:** Mở file Solution `(.sln)` bằng Visual Studio.
 2. **Cài đặt thư viện:** Hệ thống sẽ tự động khôi phục các gói NuGet (NuGet Restore) khi bạn Build project.
 3. **Cấu hình Database:**
-	- Mở thư mục dự án trong Terminal.
+	- Khởi chạy Terminal.
+	- Di chuyển tới thư mục chứa file dự án (file có đuôi .csproj) bằng lệnh `cd UserManagementApp.API`. Nếu đã ở thư mục có file dự án rồi thì bỏ qua.
 	- Chạy lệnh `dotnet ef database update` để tạo database. Chạy lệnh ở thư mục chứa file dự án (file có đuôi .csproj)  (Nếu file `UserManagement.db` đã có sẵn, có thể bỏ qua bước này).
 	- Nếu máy báo lỗi `Entity Framework Core .NET Command-line Tools is not installed` thì hãy chạy lệnh `dotnet tool install --global dotnet-ef` để cài đặt công cụ và chạy lại lệnh trên (nếu không báo lỗi thì bỏ qua bước này)
 4. **Chạy dự án:** Nhấn F5 hoặc nút Start trong Visual Studio.
@@ -43,6 +44,34 @@ Sau khi dự án khởi chạy, trình duyệt sẽ tự động mở giao diệ
 `http://localhost:<port>/swagger`
 
 Tại đây, bạn có thể xem chi tiết các Endpoint, Request model và Response model cho từng chức năng quản lý người dùng.
+
+**Dữ liệu kiểm thử:**
+
+1. Request tạo mới người dùng (POST api/Users):
+``` 
+{
+  "fullName": "Nguyen A",
+  "email": "nguyena@example.com",
+  "password": "12345678"
+}
+```
+2. Response trả về (GET api/Users và api/Users/{id}):
+	- api/Users không cần dữ liệu đầu vào
+	- api/Users/{id} thì cần `id của người dùng`
+
+3. Request cập nhật thông tin người dùng (PUT api/Users/{id})
+	- Yêu cầu dữ liệu đầu vào là `id người dùng`
+	- Các dữ liệu mới muốn cập nhật
+	```
+	{
+	  "fullName": "Tên mới cho người dùng",
+	  "email": "Email mới",
+	  "password": "Mật khẩu mới"
+	}
+	```
+4. Request xoá người dùng (DELETE api/Users/{id})
+	- Yêu cầu dữ liệu đầu vào là `id người dùng`
+
 
 ## 7. Kiểm tra Database
 **Nếu chưa cài đặt công cụ DB Browser for SQLite:**
