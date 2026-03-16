@@ -86,3 +86,15 @@ Sau khi đã hoàn tất hết tất cả phần cài đặt.
 Khởi chạy dự án ở chế độ phát triển bằng lệnh `npm run start:dev`
 
 Hệ thống sẽ chạy tại: http://localhost:3000 và WebSocket tại cổng tương ứng.
+
+## 5. Tài liệu API
+
+| Method   | Endpoint            | Chức năng                     | Dữ liệu đầu vào (Body/Param)          |
+| :------- | :------------------ | :---------------------------- | :------------------------------------ |
+| `POST`   | `/auth/register`    | Đăng ký tài khoản mới         | `email`, `password`, `fullName`       |
+| `POST`   | `/auth/login`       | Đăng nhập hệ thống            | `email`, `password`                   |
+| `POST`   | `/workspaces`       | Tạo không gian làm việc       | `name`, `description`                 |
+| `GET`    | `/workspaces`       | Danh sách không gian làm việc | (Không có)                            |
+| `POST`   | `/tasks`            | Tạo mới một công việc         | `workspaceId`, `title`, `description` |
+| `PATCH`  | `/tasks/:id/status` | Cập nhật trạng thái task      | `id` (Param), `status`                |
+| `DELETE` | `/tasks/:id`        | Xóa task khỏi hệ thống        | `id` (Param)                          |
