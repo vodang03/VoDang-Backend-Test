@@ -98,3 +98,29 @@ Hệ thống sẽ chạy tại: http://localhost:3000 và WebSocket tại cổng
 | `POST`   | `/tasks`            | Tạo mới một công việc         | `workspaceId`, `title`, `description` |
 | `PATCH`  | `/tasks/:id/status` | Cập nhật trạng thái task      | `id` (Param), `status`                |
 | `DELETE` | `/tasks/:id`        | Xóa task khỏi hệ thống        | `id` (Param)                          |
+
+## 6. Hướng dẫn test khả năng real-time
+
+| Event Name      | Kiểu            | Dữ liệu (Payload)        | Mô tả                             |
+| :-------------- | :-------------- | :----------------------- | :-------------------------------- |
+| `joinWorkspace` | Emit (Client)   | `workspaceId`            | Tham gia vào Workspace            |
+| `taskCreated`   | Listen (Server) | `id`, `title`, `status`, | Nhận thông báo khi có task mới    |
+| `taskUpdated`   | Listen (Server) | `taskId`, `status`,      | Cập nhật trạng thái task tức thời |
+| `taskDeleted`   | Listen (Server) | `taskId`                 | Xóa task khỏi giao diện realtime  |
+
+**Công cụ test:** Postman(v12.2.0)
+
+1. Khởi tạo kết nối
+   - Tạo 1 tab mới và chuyển đổi **request type** sang **Socket.IO**
+   - URL: http://localhost:3000 (hoặc Port bạn đã cấu hình)
+2. Cấu hình Auth
+   - Tại tab Headers cấu hình như sau:
+   ```
+    | Authorization | Bearer <Access token của bạn> |
+   ```
+3. Thực hiện Join Room:
+   - Tại tab Events, nhập 3 event `taskUpdated`, `taskDeleted`, `taskCreated` và chuyển sang trạng thái Listen.
+   - Tại tab Message phần nội dung tin nhắn thì nhập `workspaceId` vào và phía dưới góc phải ô event name thì nhập `joinWorkspace` và nhấn Send.
+4. Kiểm tra Real-time:
+   - Mở thêm một tab Postman, **request type** thì để là **HTTP**
+   - Khi bạn thực hiện các thao tác CRUD Task qua REST API, các thông báo (taskCreated, taskUpdated,...) sẽ hiển thị tức thời tại cửa sổ Messages của Postman.
